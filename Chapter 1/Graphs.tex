@@ -1,0 +1,425 @@
+%!TEX program = lualatex
+
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usetikzlibrary{positioning,
+                shapes.geometric,
+                quotes,
+                graphs,
+                graphdrawing}
+\usegdlibrary {trees, layered}
+
+
+
+
+\begin{document}
+    \begin{enumerate}
+        \item 
+            \[\begin{tikzpicture}[
+                node distance={30mm}, 
+                main/.style = {draw, circle},
+                every edge quotes/.style={auto, sloped}
+            ]
+                \node[main] (1) {$v_1$};
+                \node[main] (2) [right of=1] {$v_2$}        edge["$e_1$"] (1);
+                \node[main] (3) [below right of=1] {$v_3$}  edge["$e_2$"] (1)
+                                                            edge["$e_3$",out=0, in=270, looseness=11] (3);
+                \node[main] (4) [right of=2] {$v_4$};
+            \end{tikzpicture}\]
+            $V = \{v1, v2, v3, v4\} \\ 
+            E = \{e1, e2, e3\}$
+            \[
+                \begin{tabular}{| c | c |}
+                    \hline
+                    Edge & Endpoints \\ \hline
+                    $e_1$ & $\{v_1, v_2\}$ \\ \hline
+                    $e_2$ & $\{v_1, v_3\}$ \\ \hline
+                    $e_3$ & $\{v_3\}$ \\ \hline
+                \end{tabular}
+            \]
+            
+        \item
+            \[
+                \begin{tikzpicture}[
+                    node distance={30mm},
+                    main/.style={draw, circle}, 
+                    every edge quotes/.style={auto, sloped}
+                ]
+                    \node[main] (1) {$v_1$};
+                    \node[main] (2) [below right of=1] {$v_2$}  edge["$e_1$"] (1);
+                    \node[main] (3) [above of=2] {$v_3$}        edge["$e_2$", bend right] (2)
+                                                                edge["$e_3$", bend left] (2);
+                    \node[main] (4) [above right of=2] {$v_4$}  edge["$e_4$"] (2)
+                                                                edge["$e_5$", in=0, out=270, looseness=11] (4);
+                \end{tikzpicture}
+            \]
+            $V=\{v1, v2, v3, v4\} \\
+            E=\{e1, e2, e3, e4, e5\}$
+            \[
+                \begin{tabular}{|c | c |}
+                    \hline
+                    Edge & Endpoints \\ \hline
+                    $e_1$ & $\{v_1, v_2\}$ \\ \hline
+                    $e_2$ & $\{v_2, v_3\}$ \\ \hline
+                    $e_3$ & $\{v_2, v_3\}$ \\ \hline
+                    $e_4$ & $\{v_2, v_4\}$ \\ \hline
+                    $e_5$ & $\{v_4\}$ \\ \hline
+                \end{tabular}
+            \]
+        \item \[
+            \begin{tabular}{|c | c |}
+                \hline
+                Edge & Endpoints \\ \hline
+                $e_1$ & $\{v_1, v_2\}$ \\ \hline
+                $e_2$ & $\{v_1, v_2\}$ \\ \hline
+                $e_3$ & $\{v_2, v_3\}$ \\ \hline
+                $e_4$ & $\{v_2\}$ \\ \hline
+            \end{tabular}
+        \]
+            \tikz \graph [
+                    grow right=30mm, 
+                    nodes={circle, draw}, 
+                    edge quotes={auto, sloped}
+                ] {
+                    v1/$v_1$ -- [bend left, "$e_1$"] v2/$v_2$ -- ["$e_3$"] v3/$v_3$;
+                    v1 -- [bend right, "$e_2$"] v2;
+                    v2 -- [in=230, out=320, looseness=10, "$e_4$"] v2;
+            };
+        \item \[
+            \begin{tabular}{|c | c |}
+                \hline
+                Edge & Endpoints \\ \hline
+                $e_1$ & $\{v_1\}$ \\ \hline
+                $e_2$ & $\{v_2, v_3\}$ \\ \hline
+                $e_3$ & $\{v_2, v_3\}$ \\ \hline
+                $e_4$ & $\{v_1, v_5\}$ \\ \hline
+            \end{tabular}
+        \]
+            \tikz \graph [
+                grow right=30mm,
+                nodes={circle, draw},
+                edge quotes={auto}
+            ] {
+                v1/$v_1$ -- [in=60, out=120, looseness=10, "$e_1$"] v1;
+                v2/$v_2$[right of=v1] -- [bend left, "$e_2$"] v3/$v_3$;
+                v2 -- [bend right, "$e_3$"] v3;
+                v4/$v_4$[above of=v3];
+                v1 -- ["$e_4$"] v5/$v_5$;
+            };
+        \item 
+            \begin{enumerate}
+                \item \[
+                    \tikz \graph [
+                        grow right=30mm,
+                        nodes={circle, draw},
+                        edge quotes={auto=right, }
+                    ] {
+                        v1/$v_1$ -!- v2/$v_2$ -!- v3/$v_3$;
+                        v6/$v_6$[below of=v1] -- v2 -- v4/$v_4$[below of=v2];
+                        v5/$v_5$[below of=v2];
+                        v1 --["$e_1$"] v6 --[near start, "$e_7$"] v2;
+                        v1 -- [bend left, "$e_2$"] v3 -- [bend left, very near end, "$e_3$"] v1;
+                        v3 --["$e_4$"] v4 --[very near end, "$e_5$"] v2 --["$e_6$"] v5;
+                    };
+                \]
+                \item \[
+                    \tikz \graph [
+                        grow right=30mm,
+                        branch down=12mm,
+                        nodes={circle, draw, align=center},
+                        edge quotes={auto=right}
+                    ] {
+                        v5/$v_5$;
+                        v5 -- v2/$v_2$[below of=v1];
+                        v6/$v_6$[left of=v2] -- v2 -- v4/$v_4$[right of=v2];
+                        v6 -- v1/$v_1$[below of=v6] --[bend left] v3/$v_3$[below of=v4];
+                        v4 -- v3 --[bend left] v1;
+                    };
+                \]
+            \end{enumerate}
+        \item 
+            \begin{enumerate} 
+                \item \[
+                    \tikz \graph [
+                        grow right=30mm,
+                        branch down=30mm,
+                        nodes={circle, draw},
+                        edge quotes={auto=left}
+                    ]  {
+                        v1/$v_1$ -!- v2/$v_2$;
+                        v4/$v_4$ -!- v3/$v_3$;
+                        v1 --[near start, "$e_1$"] v3 --["$e_3$"] v2 --[near end, "$e_2$"] v4 --["$e_4$"] v1;
+                    };
+                \]
+                \item \[
+                    \tikz \graph [
+                        grow right=30mm,
+                        branch down=30mm,
+                        nodes={circle, draw},
+                    ] {
+                        v1/$v_1$ --["$e_1$"] v3/$v_3$;
+                        v1 --["$e_4$"] v4/$v_4$ --["$e_2$"] v2/$v_2$ --["$e_3$"] v3;
+                    };
+                \]
+            \end{enumerate}
+        \item 
+            \begin{enumerate}
+                \item \[
+                    \begin{tikzpicture}[
+                        main/.style={draw, circle},
+                        node distance=30mm,
+                        every edge={auto}
+                    ]
+                        \node[main] (6)                     {$v_6$};
+                        \node[main] (1) [left of=6]         {$v_1$} edge["$e_8$"] (6);
+                        \node[main] (4) [right of=6]        {$v_4$} edge["$e_4$"] (6);
+                        \node[main] (2) [above left of=6]   {$v_2$} edge[near end, "$e_1$"] (1);
+                        \node[main] (3) [above right of=6]  {$v_3$} edge["$e_3$"] (4)
+                                                                    edge["$e_2$"] (2);
+                        \node[main] (7) [below left of=6]   {$v_7$} edge[near start, "$e_9$"] (2)
+                                                                    edge["$e_7$"] (6);
+                        \node[main] (5) [below right of=6]  {$v_5$} edge["$e_6$"] (6)
+                                                                    edge[near end, "$e_5$"] (3);
+                    \end{tikzpicture}
+                \]
+                \item \[
+                    \begin{tikzpicture}[
+                        main/.style={draw, circle},
+                        node distance=30mm,
+                        every edge={auto}
+                    ]
+                        \node[main] (6) {$v_6$};
+                        \node[main] (1) [above left of=6]       {$v_1$} edge["$e_8$"] (6);
+                        \node[main] (4) [above right of=6]      {$v_4$} edge["$e_4$"] (6);
+                        \node[main] (2) [above of=1]            {$v_2$} edge["$e_1$"] (1);
+                        \node[main] (3) [above of=4]            {$v_3$} edge["$e_3$"] (4)
+                                                                        edge["$e_2$"] (2);
+                        \node[main] (7) [above left of=2]       {$v_7$} edge["$e_9$"] (2)
+                                                                        edge[bend right, looseness=1.5, "$e_7$"] (6);
+                        \node[main] (5) [above right of=3]      {$v_5$} edge["$e_3$"] (3)
+                                                                        edge[bend left, looseness=1.5, "$e_3$"] (6);
+                    \end{tikzpicture}  
+                \]
+            \end{enumerate}
+        \item 
+            \begin{enumerate}
+                \item \[
+                    \begin{tikzpicture}[
+                        main/.style={draw, circle},
+                        node distance=30mm,
+                        level distance=30mm,
+                        every edge quotes={auto, sloped}
+                    ]
+                        \node[main] (1) {$v_1$};
+                        \node[main] (2) [right=45mm of 1]       {$v_2$} edge[in=45, out=120, looseness=10, "$e_6$"] (2);
+                        \node[main] (3) [below of=2]            {$v_3$} edge[sloped, near end, "$e_3$"] (1)
+                                                                        edge[bend right, "$e_4$"] (2)
+                                                                        edge[bend left, "$e_5$"] (2)
+                                                                        edge[in=-45, out=-120, looseness=10, "$e_7$"] (3);
+                        \node[main] (4) [below right of=1]      {$v_4$} edge[near end, "$e_2$"] (1)
+                                                                        edge[near end, "$e_{10}$"] (2);
+                        \node[main] (5) [below left of=1]       {$v_5$} edge["$e_1$"] (1)
+                                                                        edge[bend left, looseness=0.75, "$e_8$"] (4)
+                                                                        edge[bend right, looseness=0.75, "$e_9$"] (4);
+                        \node[main] (6) [below right=16mm of 2] {$v_6$};
+                    \end{tikzpicture}  
+                \]
+                \item 
+                    \begin{enumerate}
+                        \item $\{e_1, e_2, e_3\}$
+                        \item $\{v_1, v_2, v_3\}$
+                        \item $\{e_2, e_3, e_8, e_9\}$
+                        \item $\{e_6, e_7\}$
+                        \item $\{\{e_8, e_9\},\{e_4, e_5\}\}$
+                        \item $\{v_6\}$
+                        \item $5$
+                    \end{enumerate}
+            \end{enumerate}
+        \item 
+            \begin{enumerate}
+                \item \[ 
+                    \begin{tikzpicture}[
+                        main/.style={draw, circle},
+                        node distance=30mm,
+                        level distance=30mm,
+                        every edge quotes={auto, sloped}
+                    ]
+                        \node[main] (1)                         {$v_1$} edge[in=180, out=90, looseness=10, "$e_1$"] (1);
+                        \node[main] (2)[right=45mm of 1]        {$v_2$} edge["$e_2$"] (1)
+                                                                        edge[in=0, out=90, looseness=10, "$e_3$"] (2);
+                        \node[main] (3)[below right=25mm of 2]  {$v_3$} edge["$e_6$"] (2)
+                                                                        edge[near start,"$e_7$"] (1); 
+                        \node[main] (4)[below left=20mm of 3]   {$v_4$};
+                        \node[main] (5)[below=30mm of 1]        {$v_5$} edge[bend left, looseness=0.4, near start, "$e_4$"] (2)
+                                                                        edge[bend right, looseness=0.4, "$e_5$"] (2);
+                \end{tikzpicture}
+                \]
+                \item 
+                    \begin{enumerate}
+                        \item $\{e_1, e_2, e_7\}$
+                        \item $\{v_1, v_2\}$
+                        \item $\{e_1, e_1, e_7\}$
+                        \item $\{e_1, e_3\}$
+                        \item $\{e_4, e_5\}$
+                        \item $\{v_4\}$
+                        \item $2$
+                    \end{enumerate}
+            \end{enumerate}
+        \item 
+            \begin{enumerate}
+                \item True
+                \item True 
+            \end{enumerate}
+        \item ????????
+        \item \[
+            \tikz \graph[
+                tree layout,
+                grow down,
+                nodes={ellipse, draw}
+            ]{
+                0/$W\ G\ C\ F\ |$   
+                -> 1/$W\ C\ |\ G\ F$ 
+                -> 2/$W\ C\ F\ |\ G$
+                -> {
+                        3.1/$W\ |\ G\ C\ F$ 
+                        -> 4.1/$W\ G\ F\ |\ C$
+                        , 
+                        3.2/$C\ |\ W\ G\ F$
+                        -> 4.2/$G\ C\ F\ |\ W$
+                    }
+                -> 5.1/$G\ |\ W\ C\ F$
+                -> 6.1/$G\ F\ |\ W\ C$
+                -> 7.1/$|\ W\ G\ C\ F$;
+            };
+        \]
+        \item \[
+            \tikz \graph [
+                    tree layout,
+                    grow'=down,
+                    branch down,
+                    level distance=0pt,
+                    sibling distance=0pt,
+                    nodes={ellipse, draw, scale=0.75}
+            ] {
+                    0/$ccc\ vvvB| $ -> {1.1/$cc\ vv|cvB$[third], 1.2/$c\ vvv|ccB$, 1.3/$cc\ vvv|cB$};
+                    1.1 -> 2.1/$cc\ vvvB|c$ -> 3.1/$vvv|cccB$ 
+                        -> 4.1/$c\ vvvB|cc$ -> 5.1/$c\ v|cc\ vvB$ 
+                        -> 6.1/$cc\ vvB|c\ v$ -> 7.1/$cc|c\ vvvB$ -> 8/$cccB|vvv$ -> 9/$c|cc\ vvvB$
+                        -> 10/$ccB|c\ vvv$ -> 11/$|ccc\ vvvB$;
+                    1.2 -> 2.1;
+            } ;
+        \]
+        \item \[
+            \tikz \graph [
+                tree layout,
+                grow'=right,
+                level distance=0pt,
+                nodes={ellipse, draw}
+            ] {
+                0/"$\{0,0\}$" 
+                -> 1/"$\{0,3\}$" 
+                -> 2/"$\{3,0\}$"
+                -> 3/"$\{3,3\}$"
+                -> 4/"$\{5,1\}$"
+                -> 5/"$\{0,1\}$";
+            };
+        \]
+        \item \[
+            \begin{tikzpicture} [
+                main/.style={draw, circle},
+                node distance=20mm,
+                level distance=14mm,
+                every edge={very thick},
+                every edge quotes={auto, sloped}
+            ]
+                \node (a) [blue]                    {$a$};
+                \node (b) [right of=a, green]       {$b$};
+                \node (c) [right of=b, green]       {$c$};
+                \node (d) [below right of=a, red]   {$d$};
+                \node (e) [below right of=b, blue]  {$e$};
+                \node (f) [right of=e, red]         {$f$};
+                \node (g) [below of=e, green]       {$g$};
+
+                \draw (a) -- (b);
+                \draw (a) -- (d);
+                \draw (b) -- (d);
+                \draw (b) -- (e);
+                \draw (c) -- (e);
+                \draw (c) -- (f);
+                \draw (d) -- (e);
+                \draw (d) -- (g);
+                \draw (e) -- (g);
+                \draw (f) -- (g);
+
+            \end{tikzpicture}
+        \]
+        \item \[
+            \begin{tikzpicture}[
+                node distance=20mm,
+                level distance=20,
+                every edge={very thick}
+            ]
+                \node (ue) [red]                    {UE};
+                \node (ge) [right of=ue, blue]      {GE};
+                \node (c)  [right of=ge, red]       {C};
+                \node (l)  [below of=ue, blue]      {L};
+                \node (h)  [below of=ge, green]     {H};
+                \node (p)  [below of=c, green]      {P};
+
+                \draw (ue) -- (l);
+                \draw (ue) -- (h);
+                \draw (ue) -- (ge);
+                \draw (ge) -- (h);
+                \draw (c.north) .. controls +(up:45mm) and +(left:45mm) .. (l.west);
+                \draw (c) -- (h);
+                \draw (l) to[bend right] (p);
+
+            \end{tikzpicture}
+        \]
+        \item \[
+            \begin{tikzpicture}[
+                main/.style 2 args={circle, draw={#1}, scale=0.25, fill={#1}, label={[color={#1}, font=\tiny]{#2}}},
+                node distance = 80mm,
+                level sep=20mm,
+                every edge={very thin}
+            ]
+            \node[main={green}{MCS101}]      (1)                     {};
+            \node[main={green}{MCS102}]      (2) [right of=1]        {};
+            \node[main={blue}{MCS100}]      (0) [below left of=1]   {};
+            \node[main={orange}{MCS110}]      (10) [below right of=2] {};
+            \node[main={red}{MCS135}]      (35) [below right=12mm of 0] {};
+            \node[main={blue}{MCS120}]      (20) [below left=12mm of 10] {};
+            \node[main={orange}{MCS130}]      (30) [below right=16mm of 35] {};
+            
+            \draw (1) -- (0) -- (35) -- (30) -- (20) -- (10) -- (2) -- (30) -- (1);
+            \draw (0) -- (10) -- (35) -- (20);
+            \draw (1) -- (35) -- (2) -- (20) -- (1);
+
+            \end{tikzpicture}
+        \]
+        \[
+            \begin{tabular}{| c | c |}
+                \hline
+                Node & Degree \\
+                \hline
+                MCS100 & 3 \\
+                \hline
+                MCS101 & 4 \\
+                \hline
+                MCS102 & 4 \\
+                \hline
+                MCS110 & 4 \\
+                \hline
+                MCS120 & 5 \\
+                \hline
+                MCS130 & 4 \\
+                \hline 
+                MCS135 & 6 \\
+                \hline
+            \end{tabular}   
+        \]
+    \end{enumerate}
+\end{document}
